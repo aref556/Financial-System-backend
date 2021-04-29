@@ -1,5 +1,5 @@
-import { Controller, Post } from "@nestjs/common";
-import { LoginModel } from "src/models/login.model";
+import { Body, Controller, Post } from "@nestjs/common";
+import { AccountModel } from "src/models/account.model";
 import { AccountService } from "src/services/account.service";
 
 @Controller('api/account')
@@ -10,8 +10,14 @@ export class AccountController {
 
     // เข้่าสู่ระบบ
     @Post('login')
-    login( body: LoginModel) {
-        return this.service.onLogin(body)    
+    login(@Body() body: AccountModel) {
+        return this.service.onLogin(body);
+    }
+
+    //ลงทะเบียน
+    @Post('register')
+    register(@Body() body: AccountModel) {
+        return this.service.onRegister(body);
     }
 
 }

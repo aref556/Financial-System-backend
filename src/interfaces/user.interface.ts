@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
-import { Account} from './app.interface'
+import { InAccount} from './app.interface'
 
-export interface UserDocument extends Account, Document {
+export interface UserDocument extends InAccount, Document {
 
 }

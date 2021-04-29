@@ -5,7 +5,7 @@ import { UserDocument } from "src/interfaces/user.interface";
 
 @Injectable()
 export class UserService {
-    constructor(@InjectModel('App') private UserCollectionL: Model<UserDocument>) { }
+    constructor(@InjectModel('accounts') private UserCollectionL: Model<UserDocument>) { }
 
     // สร้างฟอร์มตามประเภท
 

@@ -4,15 +4,15 @@ import { AppController } from './controllers/app.controller';
 import { AccountService } from './services/account.service';
 import { AppService } from './services/app.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { appSchema } from './schemas/app.schema';
 import { UserController } from './controllers/user.controller';
 import { JwtAuthenService, JwtAuthenStrategy } from './services/jwt-authen.service';
+import { accountSchema } from './schemas/account.schema';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/app_db'),
+    MongooseModule.forRoot('mongodb://localhost/psu_financial_system_db'),
     MongooseModule.forFeature([
-      { name: 'App', schema: appSchema },
+      { name: 'accounts', schema: accountSchema },
     ]),
   ],
   controllers: [

@@ -1,24 +1,24 @@
 // ข้อมูลผู้ใช้งาน
-export interface Account {
-    username: String;
-    password: String;
+export interface InAccount {
+    username: string;
+    password: string;
     // ข้อมูลส่วนตัวควรเก็บด้วยไหม
-    // firstname: String;
-    // lastname: String;
-    // phone_number: String;
-    // role: RoleAccount;
+    firstname: string;
+    lastname: string;
+    phone_number: string;
+    role: RoleAccount;
 }
 
 // ข้อมูลเอกสารทั้งใบแจ้งหนี้และใบเสร็จ
-export interface FinancialDocument {
-    id_mongo: String;
-    id_document: String;
-    name_document: String;
+export interface InFinancialDocument {
+    id_mongo: string;
+    id_document: string;
+    name_document: string;
     flag_status: FlagStatus;
     role: RoleDocument; 
     date_created: Date;
     date_receipted: Date;
-    generate_by: String;
+    generate_by: string;
 }
 
 

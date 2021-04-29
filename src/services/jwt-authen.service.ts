@@ -10,7 +10,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt'
 @Injectable()
 export class JwtAuthenService implements Authenticated {
     constructor(
-        @InjectModel('App') private UserCollection: Model<UserDocument>,
+        @InjectModel('accounts') private UserCollection: Model<UserDocument>,
     ) { }
 
     //กำหนด secretKey ที่ใช้สำหรับการ hash
@@ -19,7 +19,7 @@ export class JwtAuthenService implements Authenticated {
     //สร้าง Token
     async generateAccessToken(user: UserDocument) {
         const payload = { username: user.username };
-        return sign(payload, JwtAuthenService.secretKey, { expiresIn: '1hr' });
+        return sign(payload, JwtAuthenService.secretKey, { expiresIn: 60*60 });
     }
 
     // ยืนยันตัวตน
