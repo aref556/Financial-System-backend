@@ -3,27 +3,27 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { sign } from 'jsonwebtoken';
 import { Authenticated } from "src/interfaces/authen.interface";
-import { UserDocument } from "src/interfaces/user.interface";
+import { InUserDocument } from "src/interfaces/user.interface";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from 'passport-jwt'
 
 @Injectable()
 export class JwtAuthenService implements Authenticated {
     constructor(
-        @InjectModel('accounts') private UserCollection: Model<UserDocument>,
+        @InjectModel('accounts') private UserCollection: Model<InUserDocument>,
     ) { }
 
     //กำหนด secretKey ที่ใช้สำหรับการ hash
     static secretKey: string = 'Financial System of Office of Digital Innovation and Intelligent System';
 
     //สร้าง Token
-    async generateAccessToken(user: UserDocument) {
+    async generateAccessToken(user: InUserDocument) {
         const payload = { username: user.username };
         return sign(payload, JwtAuthenService.secretKey, { expiresIn: 60*60 });
     }
 
     // ยืนยันตัวตน
-    async validateUser({username}): Promise<UserDocument> {
+    async validateUser({username}): Promise<InUserDocument> {
         try {
             return this.UserCollection.findOne({username});
         }

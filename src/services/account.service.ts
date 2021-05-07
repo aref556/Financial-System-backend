@@ -1,16 +1,16 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { UserDocument } from "src/interfaces/user.interface";
 import { InAccount } from '../interfaces/app.interface';
 import { JwtAuthenService } from "./jwt-authen.service";
 import { generate, verify } from 'password-hash'
+import { InUserDocument } from "src/interfaces/user.interface";
 
 @Injectable()
 export class AccountService {
     constructor(
         private authenService: JwtAuthenService,
-        @InjectModel('accounts') private UserCollection: Model<UserDocument>
+        @InjectModel('accounts') private UserCollection: Model<InUserDocument>
     ) { }
 
     // เข้าสู่ระบบ
@@ -38,10 +38,13 @@ export class AccountService {
         model.lastname = '';
         model.phone_number = '';
         model.role = 1;
+        model.id = '';
 
         const modelItem = await this.UserCollection.create(model);
-        modelItem.password = '';
-        return modelItem;
+        modelItem.id = modelItem._id;
+        const modelItem2 = await this.UserCollection.create(modelItem);
+        modelItem2.password = '';
+        return modelItem2;
 
     }
 

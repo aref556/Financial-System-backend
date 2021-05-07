@@ -7,6 +7,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserController } from './controllers/user.controller';
 import { JwtAuthenService, JwtAuthenStrategy } from './services/jwt-authen.service';
 import { accountSchema } from './schemas/account.schema';
+import { UserService } from './services/user.service';
+import { PdfService } from './services/pdf.service';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { accountSchema } from './schemas/account.schema';
   ],
   providers: [
     AppService,
+    UserService,
+    PdfService,
     AccountService,
     JwtAuthenService,
     JwtAuthenStrategy,

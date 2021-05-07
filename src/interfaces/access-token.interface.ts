@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 
-export interface AccessTokenDocument extends Document {
+export interface InAccessTokenDocument extends Document {
     userID: any;
     accessToken: string;
     exprise: Date;

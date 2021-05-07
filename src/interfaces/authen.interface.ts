@@ -1,6 +1,7 @@
-import { UserDocument } from "./user.interface";
+import { InUserDocument } from "./user.interface";
+
 
 export interface Authenticated {
-    generateAccessToken(user: UserDocument): Promise<string>;
-    validateUser(accessToken): Promise<UserDocument>;
+    generateAccessToken(user: InUserDocument): Promise<string>;
+    validateUser(accessToken): Promise<InUserDocument>;
 }
