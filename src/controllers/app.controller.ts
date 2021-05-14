@@ -7,8 +7,6 @@ export class AppController {
 
   @Get()
   root() {
-    return {
-      Message: 'Financial system api'
-    }
+    return this.appService.getHello();
   }
 }

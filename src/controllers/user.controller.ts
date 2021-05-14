@@ -21,15 +21,22 @@ export class UserController {
         return this.service.onCreateFinancialDocument(body);
     }
 
-    //เก็บข้อ
+    //เก็บข้อมูล
     @Get('data')
     getUserLogin(@Req() req: Request) {
         const userLogin: InUserDocument = req.user as any;
-        // console.log(req.user);
+        // console.log(req);
         userLogin.password = '';
         return userLogin;
+        // return req;
 
     }
+
+    // @Get('data2')
+    // getTest(@Req() req: Request){
+    //     console.log(req.user);
+    //     return "555";
+    // }
     
     
 
