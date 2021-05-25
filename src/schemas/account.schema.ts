@@ -11,7 +11,9 @@ export const accountSchema = new Schema({
     lastname: String,
     phone_number: String,
     role: Number,
-
-
+    created_time: {
+        type: Date,
+        default: Date.now
+    },
 
 })

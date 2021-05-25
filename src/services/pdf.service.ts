@@ -134,18 +134,16 @@ export class PdfService {
             content: [
                 {
                     text: 'PDF Generated with Image from external URL',
-                    fontSize: 20
+                    fontSize: 20,
                 },
                 {
                     image: await this.getBase64ImageFromURL(
-                        "/src/assets/images/cavalry-v1.jpg"
+                        "/src/assets/images/cavalry-v1.jpg",
                     )
                 }
             ]
         };
         this.pdfMake.createPdf(docDefinition).open();
     }
-
-
 
 }

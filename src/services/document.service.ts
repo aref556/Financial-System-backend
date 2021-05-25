@@ -1,26 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { InDelivery, InFinancialDocument, InInvoice, InInvoiceDocument, InMessageMemos } from "src/interfaces/app.interface";
+import { InFinancialDocument, InDelivery, InInvoice, InInvoiceDocument, InMessageMemos, InDocumentSearch, InDocumentList } from "src/interfaces/app.interface";
 import { InDocuments } from "src/interfaces/document.interface";
-import { InUserDocument } from "src/interfaces/user.interface";
-
 
 @Injectable()
-export class UserService {
+export class DocumentService {
     constructor(
-        @InjectModel('accounts') private UserCollection: Model<InUserDocument>,
         @InjectModel('documents') private DocCollection: Model<InDocuments>,
-        // private service: PdfService,
     ) { }
-
-    // ลบฟอร์ม
-
-    // แก้ไขฟอร์ม
-
-    // โหลดฟอร์ม
-
-    // เคลียร์รายการการชำระเงินที่ receipted
 
     // สร้างเอกสารทางการเงิน
     async onCreateDocument(body: InFinancialDocument) {
@@ -75,5 +63,60 @@ export class UserService {
         return modelItem2;
 
     }
+
+    // แสดงข้อมูลเอกสาร
+    async getDocumentItems(searchOption: InDocumentSearch): Promise<InDocumentList> {
+        let queryItemFunction = () => this.DocCollection.find({}, {_id: false});
+        
+        //ส่วนของการค้นหา
+        if (searchOption.searchText && searchOption.searchType) {
+            const text = searchOption.searchText;
+            const type = searchOption.searchType;
+            const conditions = {};
+            switch (type) {
+                case 'type': 
+                    conditions[type] = `${text}`;
+                    queryItemFunction = () => this.DocCollection.find(conditions, { _id: false});
+                    break;
+                case 'updated':
+                    queryItemFunction = () => this.DocCollection.find({
+                        updated: {
+                            $gt: text['from'],
+                            $lt: text['to']
+                        },
+                        type: 1,
+                    }, {_id: false});
+                    break;
+                default:
+                    conditions[type] = new RegExp(text, 'i');
+                    queryItemFunction = () => this.DocCollection.find(conditions);
+                    break;
+            }
+        }
+
+        // แบ่งหน้าเพจ
+        const items = await queryItemFunction()
+            .sort({updated: -1})
+            .skip((searchOption.startPage -1) * searchOption.limitPage)
+            .limit(searchOption.limitPage);
+        //ผลรวมของรายการเอกสารทั้งหมด
+        const totalItems = await queryItemFunction().countDocuments({});
+
+        return { items, totalItems};
+    }
+
+    //แสดงขู้อมูลเอกสารเดี่ยว
+    async getDocumentItem( documentID: any) {
+        const documentItem = await this.DocCollection.findById(documentID);
+        return documentItem;
+    }
+
+    //ลบข้อมูลรายการเอกสาร
+    async deleteDocumentItem(documentID: any) {
+        // console.log( 'type: '+ typeof documentID + ' value:' +  documentID)
+        return await this.DocCollection.deleteOne({id: documentID});
+    }
+
+    
 
 }

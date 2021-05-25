@@ -9,24 +9,30 @@ import { JwtAuthenService, JwtAuthenStrategy } from './services/jwt-authen.servi
 import { accountSchema } from './schemas/account.schema';
 import { UserService } from './services/user.service';
 import { PdfService } from './services/pdf.service';
+import { documentSchema } from './schemas/document.schema';
+import { DocumentController } from './controllers/document.controller';
+import { DocumentService } from './services/document.service';
 
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost/psu_financial_system_db'),
     MongooseModule.forFeature([
       { name: 'accounts', schema: accountSchema },
+      { name: 'documents', schema: documentSchema},
     ]),
   ],
   controllers: [
     AppController,
     AccountController,
     UserController,
+    DocumentController,
   ],
   providers: [
     AppService,
     UserService,
     PdfService,
     AccountService,
+    DocumentService,
     JwtAuthenService,
     JwtAuthenStrategy,
   ],
