@@ -11,5 +11,6 @@ export class MessageMemosModel implements InMessageMemos {
     guarantor: string;
     guarantor_position: string;
     flag_status: FlagStatus;
+    type_income: string;
     
 }

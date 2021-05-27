@@ -13,5 +13,6 @@ export class DeliveryModel implements InDelivery {
     forwarder: string;
     forwarder_position: string;
     flag_status: FlagStatus;
+    type_income: string;
     
 }

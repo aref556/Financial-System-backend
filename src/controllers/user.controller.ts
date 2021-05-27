@@ -16,62 +16,15 @@ export class UserController {
     constructor(
         private service: UserService,
     ) { }
-    // แสดงข้อมูลรายการการชำระเงิน
-
-    // สร้างเอกสารการเงิน
-    @Post('create-documents')
-    createFinancialDocument(@Body(new ValidationPipe) body: InFinancialDocument, @Req() req:Request) {
-        // console.log(body);
-        // console.log(req.user);
-        // console.log(req.user['username']);
-        body.created_by = req.user['username'];
-        return this.service.onCreateDocument(body);
-    }
-
-    //สร้างใบแจ้งหนี้
-    @Post('create-invioce')
-    createInvioce(@Body(new ValidationPipe) body: InvoiceModel, @Req() req:Request) {
-        // console.log(body);
-        // console.log(req.user);
-        // console.log(req.user['username']);
-        return this.service.onCreateInvoice(body, req.user['username']);
-    }
-
-    //สร้างใบส่งของ
-    @Post('create-delivery')
-    createDelivery(@Body(new ValidationPipe) body: DeliveryModel, @Req() req:Request) {
-        // console.log(body);
-        // console.log(req.user);
-        // console.log(req.user['username']);
-        return this.service.onCreateDelivery(body, req.user['username']);
-    }
-
-    // สร้างเอกสารแจ้งหนี้
-    @Post('create-invioce-document')
-    createInvioceDocument(@Body(new ValidationPipe) body: InvoiceDocumentModel, @Req() req:Request) {
-        // console.log(body);
-        // console.log(req.user);
-        // console.log(req.user['username']);
-        return this.service.onCreateInvoiceDocument(body, req.user['username']);
-    }
-
-    // สร้างบันทึกข้อความ
-    @Post('create-message-memos')
-    createMessageMemos(@Body(new ValidationPipe) body: MessageMemosModel, @Req() req:Request) {
-        // console.log(body);
-        // console.log(req.user);
-        // console.log(req.user['username']);
-        return this.service.onCreateMessageMemos(body, req.user['username']);
-    }
 
     //เก็บข้อมูล
     @Get('data')
     getUserLogin(@Req() req: Request) {
-        const userLogin: InUserDocument = req.user as any;
-        // console.log(req);
-        userLogin.password = '';
-        return userLogin;
-        // return req;
+        console.log('Method: Post');
+        console.log('path: api/document/create-message-memos');
+        console.log('function: createMessageMemos');
+
+        return this.service.getUserLogin(req.user as any);
 
     }
 

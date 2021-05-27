@@ -33,6 +33,7 @@ export const documentSchema = new Schema({
     },
     success_time: Date,
     flag_status: Number,
+    type_income: String,
 
 
 })

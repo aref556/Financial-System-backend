@@ -13,5 +13,6 @@ export class InvoiceDocumentModel implements InInvoiceDocument {
     manager_name: string;
     manager_position: string;
     flag_status: FlagStatus;
+    type_income: string;
     
 }

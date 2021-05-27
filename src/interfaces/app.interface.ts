@@ -18,7 +18,7 @@ export interface InFinancialDocument {
     id_document: string;
     name_document: string;
     flag_status: FlagStatus;
-    role: RoleDocument; 
+    role: RoleDocument;
     date_created: Date;
     date_receipted: Date;
     generate_by: string;
@@ -26,7 +26,7 @@ export interface InFinancialDocument {
     address_id: string;
     email_1: string;
     email_2: string;
-    address_target:string;
+    address_target: string;
     condition_prize: string;
     //เอกสารใบแจ้งหนี้
     address: string;
@@ -44,6 +44,7 @@ export interface InFinancialDocument {
     type: RoleDocument;
     created_by: string;
     forwarder_position: string;
+    type_income: string;
 }
 
 // ข้อมูลการสร้างไฟล์ทางการเงิน
@@ -60,6 +61,7 @@ export interface InInvoiceDocument {
     manager_name: string;
     manager_position: string;
     flag_status: FlagStatus;
+    type_income: string;
 
 }
 
@@ -77,6 +79,7 @@ export interface InInvoice {
     forwarder: string;
     forwarder_position: string;
     flag_status: FlagStatus;
+    type_income: string;
 
 }
 
@@ -94,6 +97,7 @@ export interface InDelivery {
     forwarder: string;
     forwarder_position: string;
     flag_status: FlagStatus;
+    type_income: string;
 }
 
 // ข้อมูลบันทึกข้อความ 
@@ -108,6 +112,7 @@ export interface InMessageMemos {
     guarantor: string;
     guarantor_position: string;
     flag_status: FlagStatus;
+    type_income: string;
 }
 
 // export interface InDocument {
@@ -184,4 +189,3 @@ export enum RoleDocument {
 }
 
 
- 

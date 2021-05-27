@@ -15,6 +15,7 @@ export class AccountService {
 
     // เข้าสู่ระบบ
     async onLogin(body: InAccount) {
+        console.log('onLogin');
         const user = await this.UserCollection.findOne({ username: body.username });
         // console.log(user);
         if (!user) throw new BadRequestException('ไม่มีข้อมูลบัญชีผู้ใช้นี้ในระบบ');
@@ -28,23 +29,28 @@ export class AccountService {
 
     //ลงทะเบียน
     async onRegister(body: InAccount) {
+        console.log('onRegister');
         const count = await this.UserCollection.countDocuments({ username: body.username });
         if (count > 0) throw new BadRequestException('บัญชีนี้มีในระบบแล้ว');
 
-        let model: InAccount = body;
-        model.username = body.username;
-        model.password = generate(model.password);
-        model.firstname = '';
-        model.lastname = '';
-        model.phone_number = '';
-        model.role = 1;
-        model.id = '';
+        try {
+            let model: InAccount = body;
+            model.username = body.username;
+            model.password = generate(model.password);
+            model.firstname = '';
+            model.lastname = '';
+            model.role = 1;
+            model.id = '';
 
-        const modelItem = await this.UserCollection.create(model);
-        modelItem.id = modelItem._id;
-        const modelItem2 = await this.UserCollection.create(modelItem);
-        modelItem2.password = '';
-        return modelItem2;
+            const modelItem = await this.UserCollection.create(model);
+            modelItem.id = modelItem._id;
+            const modelItem2 = await this.UserCollection.create(modelItem);
+            modelItem2.password = '';
+            return modelItem2;
+
+        } catch (err) {
+            throw new BadRequestException(err.Message);
+        }
 
     }
 
