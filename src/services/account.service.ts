@@ -41,6 +41,7 @@ export class AccountService {
             model.lastname = '';
             model.role = 1;
             model.id = '';
+            model.position = '';
 
             const modelItem = await this.UserCollection.create(model);
             modelItem.id = modelItem._id;

@@ -12,12 +12,18 @@ export class AccountController {
     // เข้่าสู่ระบบ
     @Post('login')
     login(@Body(new ValidationPipe) body: AccountModel) {
+        console.log('Method: Post');
+        console.log('path: api/account/login');
+        console.log('function: login');
         return this.service.onLogin(body);
     }
 
     //ลงทะเบียน
     @Post('register')
     register(@Body(new ValidationPipe) body: AccountModel) {
+        console.log('Method: Post');
+        console.log('path: api/account/register');
+        console.log('function: register');
         return this.service.onRegister(body);
     }
 

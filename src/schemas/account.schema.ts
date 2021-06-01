@@ -15,5 +15,6 @@ export const accountSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    position: String,
 
 })

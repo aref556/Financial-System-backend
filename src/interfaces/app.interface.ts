@@ -7,9 +7,9 @@ export interface InAccount {
     // ข้อมูลส่วนตัวควรเก็บด้วยไหม
     firstname: string;
     lastname: string;
-    phone_number: string;
     role: RoleAccount;
     id?: any;
+    position: string;
 }
 
 // ข้อมูลเอกสารทั้งใบแจ้งหนี้และใบเสร็จ อาจจะไม่เอา
@@ -65,6 +65,13 @@ export interface InInvoiceDocument {
 
 }
 
+export interface InProfile {
+    username: string;
+    firstname: string;
+    lastname: string;
+    position: string;
+}
+
 // ข้อมูลการสร้างไฟล์ใบแจ้งหนี้
 export interface InInvoice {
     address: string;
@@ -113,6 +120,11 @@ export interface InMessageMemos {
     guarantor_position: string;
     flag_status: FlagStatus;
     type_income: string;
+}
+
+export interface InModalChangePassword {
+    origin_pass: string;
+    new_pass: string;
 }
 
 // export interface InDocument {
@@ -175,8 +187,8 @@ export enum FlagStatus {
 
 //ข้อมูลประเภทของผู้ใช้
 export enum RoleAccount {
-    Admin = 1,
-    SuperAdmin = 2
+    User = 1,
+    Admin = 2
 
 }
 

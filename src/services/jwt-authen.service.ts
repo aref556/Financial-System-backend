@@ -19,7 +19,7 @@ export class JwtAuthenService implements Authenticated {
     //สร้าง Token
     async generateAccessToken(user: InUserDocument) {
         const payload = { username: user.username };
-        return sign(payload, JwtAuthenService.secretKey, { expiresIn: 60*60 });
+        return sign(payload, JwtAuthenService.secretKey, { expiresIn: '2hr' });
     }
 
     // ยืนยันตัวตน

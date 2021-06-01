@@ -1,14 +1,10 @@
 import { Body, Controller, Get, Param, Post, Req, UseGuards } from "@nestjs/common";
-import { InFinancialDocument, InInvoice } from "src/interfaces/app.interface";
-import { InUserDocument } from "src/interfaces/user.interface";
+import { InAccount, InFinancialDocument, InInvoice, InModalChangePassword, InProfile } from "src/interfaces/app.interface";
 import { UserService } from "src/services/user.service";
 import { Request } from 'express';
 import { AuthGuard } from "@nestjs/passport";
 import { ValidationPipe } from "src/pipes/validation.pipe";
-import { InvoiceModel } from "src/models/invoice.model";
-import { DeliveryModel } from "src/models/delivery.model";
-import { InvoiceDocumentModel } from "src/models/invoice-document.model";
-import { MessageMemosModel } from "src/models/message-memos.model";
+
 
 @Controller(`api/user`)
 @UseGuards(AuthGuard('jwt'))
@@ -20,12 +16,34 @@ export class UserController {
     //เก็บข้อมูล
     @Get('data')
     getUserLogin(@Req() req: Request) {
+        console.log('Method: Get');
+        console.log('path: api/user/data');
+        console.log('function: getUserLogin');
+
+        return this.service.getUserLogin(req.user as InAccount);
+
+    }
+
+    @Post('profile')
+    updateUserLogin(@Req() req: Request, @Body(new ValidationPipe) body:InProfile) {
         console.log('Method: Post');
-        console.log('path: api/document/create-message-memos');
-        console.log('function: createMessageMemos');
+        console.log('path: api/user/profile');
+        console.log(`function: updateUserLogin`);
+        console.log(req.user['_id']);
+        console.log(body);
 
-        return this.service.getUserLogin(req.user as any);
+        return this.service.updateUserProfile(req.user['_id'], body);
+    }
 
+    @Post(`change-password`)
+    updatePassword(@Body(new ValidationPipe) body: InModalChangePassword) {
+        console.log('Method Post');
+        console.log(`path: api/user/change-password`);
+        console.log(`funvtion: updatePassword`);
+        console.log(body);
+        return {'flag' : true};
+
+        
     }
 
 

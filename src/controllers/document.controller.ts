@@ -26,7 +26,7 @@ export class DocumentController {
         // console.log(body);
         // console.log(req.user);
         // console.log(req.user['username']);
-        body.created_by = req.user['username'];
+        body.created_by = req.user['firstname'];
         return this.service.onCreateDocument(body);
     }
 
@@ -39,7 +39,7 @@ export class DocumentController {
         // console.log(body);
         // console.log(req.user);
         // console.log(req.user['username']);
-        return this.service.onCreateInvoice(body, req.user['username']);
+        return this.service.onCreateInvoice(body, req.user['firstname']);
     }
 
     //สร้างใบส่งของ
@@ -51,7 +51,7 @@ export class DocumentController {
         // console.log(body);
         // console.log(req.user);
         // console.log(req.user['username']);
-        return this.service.onCreateDelivery(body, req.user['username']);
+        return this.service.onCreateDelivery(body, req.user['firstname']);
     }
 
     // สร้างเอกสารแจ้งหนี้
@@ -63,7 +63,7 @@ export class DocumentController {
         // console.log(body);
         // console.log(req.user);
         // console.log(req.user['username']);
-        return this.service.onCreateInvoiceDocument(body, req.user['username']);
+        return this.service.onCreateInvoiceDocument(body, req.user['firstname']);
     }
 
     // สร้างบันทึกข้อความ
@@ -75,7 +75,7 @@ export class DocumentController {
         // console.log(body);
         // console.log(req.user);
         // console.log(req.user['username']);
-        return this.service.onCreateMessageMemos(body, req.user['username']);
+        return this.service.onCreateMessageMemos(body, req.user['firstname']);
     }
 
     //แสดงข้อมูลรายการเอกสาร
@@ -112,5 +112,7 @@ export class DocumentController {
         console.log('function: updateFlagStatus');
         return this.service.updateFlagStatus(param.id);
     }
+
+    
 
 }
