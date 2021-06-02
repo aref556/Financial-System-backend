@@ -1,6 +1,7 @@
 import { FlagStatus, InInvoice } from "src/interfaces/app.interface";
 
 export class InvoiceModel implements InInvoice {
+    id_doc: string;
     address: string;
     payment_due: number;
     guarantee: number;

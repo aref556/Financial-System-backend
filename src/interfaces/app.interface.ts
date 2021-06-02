@@ -74,6 +74,7 @@ export interface InProfile {
 
 // ข้อมูลการสร้างไฟล์ใบแจ้งหนี้
 export interface InInvoice {
+    id_doc: string;
     address: string;
     payment_due: number;
     guarantee: number;
@@ -92,6 +93,7 @@ export interface InInvoice {
 
 // ข้อมูลใบส่งของ 
 export interface InDelivery {
+    id_doc: string;
     date: string;
     address: string;
     payment_due: number;

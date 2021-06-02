@@ -1,6 +1,7 @@
 import { FlagStatus, InDelivery } from "src/interfaces/app.interface";
 
 export class DeliveryModel implements InDelivery {
+    id_doc: string;
     date: string;
     address: string;
     payment_due: number;
