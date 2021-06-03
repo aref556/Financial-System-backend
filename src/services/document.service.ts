@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { InFinancialDocument, InDelivery, InInvoice, InInvoiceDocument, InMessageMemos, InDocumentSearch, InDocumentList } from "src/interfaces/app.interface";
+import { InFinancialDocument, InDelivery, InInvoice, InInvoiceDocument, InMessageMemos, InDocumentSearch, InDocumentList, InSuccessProcess } from "src/interfaces/app.interface";
 import { InDocuments } from "src/interfaces/document.interface";
 
 @Injectable()
@@ -67,7 +67,6 @@ export class DocumentService {
     async onCreateInvoiceDocument(body: InInvoiceDocument, created_by: string) {
         console.log('onCreateInvoiceDocument');
         const model: InInvoiceDocument = body;
-
         try {
             const modelItem = await this.DocCollection.create(model);
             modelItem.id = modelItem._id;
@@ -75,7 +74,6 @@ export class DocumentService {
             modelItem.flag_status = 1;
             const modelItem2 = await this.DocCollection.create(modelItem);
             return modelItem2;
-
         } catch (err) {
             throw new BadRequestException(err.Message);
 
@@ -102,6 +100,17 @@ export class DocumentService {
 
     }
 
+    async setUpdatedVariable(text: string) {
+        const searchDate: { from: Date, to: Date } = { from: new Date(text), to: new Date(text) };
+        searchDate.from.setHours(0);
+        searchDate.from.setMinutes(0);
+        searchDate.from.setSeconds(0);
+        searchDate.to.setHours(23);
+        searchDate.to.setMinutes(59);
+        searchDate.to.setSeconds(59);
+        return searchDate;
+    }
+
     // แสดงข้อมูลเอกสาร
     async getDocumentItems(searchOption: InDocumentSearch): Promise<InDocumentList> {
         console.log('getDocumentItems');
@@ -118,13 +127,14 @@ export class DocumentService {
                         conditions[type] = `${text}`;
                         queryItemFunction = () => this.DocCollection.find(conditions, { _id: false });
                         break;
+                    case 'date':
+                        queryItemFunction = () => this.DocCollection.find({
+                            date: text,
+                        }, { _id: false });
+                        break;
                     case 'updated':
                         queryItemFunction = () => this.DocCollection.find({
-                            updated: {
-                                $gt: text['from'],
-                                $lt: text['to']
-                            },
-                            type: 1,
+                            created_time: text,
                         }, { _id: false });
                         break;
                     default:
@@ -141,10 +151,11 @@ export class DocumentService {
                 .limit(searchOption.limitPage);
             //ผลรวมของรายการเอกสารทั้งหมด
             const totalItems = await queryItemFunction().countDocuments({});
-
+            // console.log({ items, totalItems});
             return { items, totalItems };
         } catch (err) {
-            throw new BadRequestException(err.Message);
+            console.log('function getDocuments : ' + err.Message)
+            throw new BadRequestException('function getDocuments : ' + err.Message);
 
         }
 
@@ -175,14 +186,23 @@ export class DocumentService {
 
     }
 
-    async updateFlagStatus(documentID: any) {
+    async updateFlagStatus(documentID: any, body: InSuccessProcess) {
         const documentUpdate = await this.DocCollection.findById(documentID);
         if (!documentUpdate) throw new BadRequestException('ไม่มีข้อมูลนี้ในระบบ');
         try {
+            if (documentUpdate.id_doc != body.success_id_doc)
+                throw new BadRequestException(`เลขที่เอกสารไม่ตรง กรุณากรอกใหม่`);
             return await this.DocCollection.updateOne({ id: documentID }, { flag_status: 2 });
         } catch (err) {
             throw new BadRequestException(err.message);
         }
+
+    }
+
+    async successProcess(username: string, body: InSuccessProcess) {
+        const documentUpdate = await this.DocCollection.findById(body.success_id_doc);
+        if (!documentUpdate) throw new BadRequestException(`ไม่มีข้อมูลเอกสารนี้ในระบบ`);
+        return await this.DocCollection.updateMany({ id: body.success_id_doc })
 
     }
 

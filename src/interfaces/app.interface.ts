@@ -14,9 +14,7 @@ export interface InAccount {
 
 // ข้อมูลเอกสารทั้งใบแจ้งหนี้และใบเสร็จ อาจจะไม่เอา
 export interface InFinancialDocument {
-    id_mongo: string;
-    id_document: string;
-    name_document: string;
+    id_doc: string;
     flag_status: FlagStatus;
     role: RoleDocument;
     date_created: Date;
@@ -39,7 +37,7 @@ export interface InFinancialDocument {
     product_number_2: number;
     product_prize_2: number;
     product_total_prize: number;
-    date: Date;
+    date: string;
     forwarder: string;
     type: RoleDocument;
     created_by: string;
@@ -127,6 +125,7 @@ export interface InMessageMemos {
 export interface InModalChangePassword {
     origin_pass: string;
     new_pass: string;
+    cnew_pass: string;
 }
 
 // export interface InDocument {
@@ -177,6 +176,12 @@ export interface InDocumentSearch {
 export interface InDocumentSearchKey {
     key: string;
     value: string;
+}
+
+export interface InSuccessProcess {
+    success_time: string;
+    success_id_doc: string;
+    note: string;
 }
 
 

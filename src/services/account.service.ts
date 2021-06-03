@@ -50,7 +50,7 @@ export class AccountService {
             return modelItem2;
 
         } catch (err) {
-            throw new BadRequestException(err.Message);
+            throw new BadRequestException(`function onRegister : ` + err.Message);
         }
 
     }

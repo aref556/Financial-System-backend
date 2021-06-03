@@ -1,7 +1,8 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
+import { verify, generate } from "password-hash";
 import { Model } from "mongoose";
-import { InAccount, InProfile } from "src/interfaces/app.interface";
+import { InAccount, InModalChangePassword, InProfile } from "src/interfaces/app.interface";
 import { InUserDocument } from "src/interfaces/user.interface";
 
 
@@ -46,6 +47,25 @@ export class UserService {
         return userItem;
 
 
+
+    }
+
+    async changePassword(userID: string, body: InModalChangePassword) {
+        console.log(`changPassword`);
+        const memberItem = await this.UserCollection.findById(userID);
+        if (!verify(body.origin_pass, memberItem.password))
+            throw new BadRequestException(`รหัสผ่านเดิมไม่ถูกต้อง`);
+        if (body.new_pass != body.cnew_pass)
+            throw new BadRequestException(`รหัสผ่านใหม่กับยืนยันรหัสใหม่ไม่ตรงกัน`);
+        try {
+            await this.UserCollection.updateOne({ _id: userID }, {
+                password: generate(body.new_pass),
+            });
+        } catch (err) {
+            throw new BadRequestException(`function changePassword : ` + err.Message);
+        }
+
+        return { 'flag': true };
 
     }
 

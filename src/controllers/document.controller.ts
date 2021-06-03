@@ -1,6 +1,6 @@
 import { Controller, Delete, Get, UseGuards, Query, Param, Put, Body, Post, Req } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { InFinancialDocument } from "src/interfaces/app.interface";
+import { InFinancialDocument, InSuccessProcess } from "src/interfaces/app.interface";
 import { DeliveryModel } from "src/models/delivery.model";
 import { ParamDocumentModel } from "src/models/document.model";
 import { InvoiceDocumentModel } from "src/models/invoice-document.model";
@@ -106,12 +106,21 @@ export class DocumentController {
     }
 
     @Put(`handle-status/:id`)
-    updateFlagStatus(@Param(new ValidationPipe()) param: ParamDocumentModel) {
+    updateFlagStatus(@Param(new ValidationPipe()) param: ParamDocumentModel, @Body(new ValidationPipe()) body:InSuccessProcess ) {
         console.log('Method: Post');
         console.log('path: api/document/handle-status/:id');
         console.log('function: updateFlagStatus');
-        return this.service.updateFlagStatus(param.id);
+        console.log(body);
+        return this.service.updateFlagStatus(param.id, body);
     }
+
+    // @Post(`api/document/accept-document`)
+    // onSuccessProcess(@Req() req:Request, @Body(new ValidationPipe()) body: InSuccessProcess) {
+    //     console.log(`Method: Post`);
+    //     console.log(`path: api/document/accept-document`);
+    //     console.log(`function: onSucessProcess`);
+    //     return this.service.successProcess()
+    // }
 
     
 

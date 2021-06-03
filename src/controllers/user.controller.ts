@@ -25,7 +25,7 @@ export class UserController {
     }
 
     @Post('profile')
-    updateUserLogin(@Req() req: Request, @Body(new ValidationPipe) body:InProfile) {
+    updateUserLogin(@Req() req: Request, @Body(new ValidationPipe) body: InProfile) {
         console.log('Method: Post');
         console.log('path: api/user/profile');
         console.log(`function: updateUserLogin`);
@@ -36,14 +36,15 @@ export class UserController {
     }
 
     @Post(`change-password`)
-    updatePassword(@Body(new ValidationPipe) body: InModalChangePassword) {
+    updatePassword(@Req() req: Request, @Body(new ValidationPipe) body: InModalChangePassword) {
         console.log('Method Post');
         console.log(`path: api/user/change-password`);
         console.log(`funvtion: updatePassword`);
         console.log(body);
-        return {'flag' : true};
+        console.log(req.user['id']);
+        return this.service.changePassword(req.user['id'], body);
 
-        
+
     }
 
 
